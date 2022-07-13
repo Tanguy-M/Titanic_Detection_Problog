@@ -71,4 +71,37 @@ def test_evaluation():
     df = pd.read_csv("Results_evalutation.csv")
     confusion_matrix = pd.crosstab(df['Survived'], df['Result'], rownames=['Actual'], colnames=['Predicted'])
     sns.heatmap(confusion_matrix,annot=True).set_title('Confusion Matrix')
+
+    TP = 0
+    TN = 0
+    FP = 0
+    FN = 0
+
+    for i in range(0,len(df)):
+        if df.loc[i,"Survived"] == df.loc[i,"Result"] and df.loc[i,"Survived"] == 1:
+            TP+=1
+        if df.loc[i,"Survived"] == df.loc[i,"Result"] and df.loc[i,"Survived"] == 0:
+            TN+=1
+        if df.loc[i,"Survived"] != df.loc[i,"Result"] and df.loc[i,"Survived"] == 1:
+            FN+=1
+        if df.loc[i,"Survived"] != df.loc[i,"Result"] and df.loc[i,"Survived"] == 0:
+            FP+=1
+    
+    accuracy = (TP+TN)/(TP+TN+FN+FP)
+    recall_t = TP/(TP+FP)
+    precision_t = TP/(TP+FN)
+    recall_f = TN/(TN+FN)
+    precision_f = TN/(TN+FP)
+
+    # print("TP : ",TP)
+    # print("\nTN : ",TN)
+    # print("\nFN : ",FN)
+    # print("FP : ",FP)
+
+    print("\nAccuracy : ",accuracy)
+    print("Precision Survive : ",precision_t)
+    print("Recall Survive: ",recall_t)
+    print("Precision Dead : ",precision_f)
+    print("Recall Dead: ",recall_f)
+    
     plt.show()
