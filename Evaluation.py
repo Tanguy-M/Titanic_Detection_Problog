@@ -1,6 +1,8 @@
 from Pre_processing import *
 from problog.program import PrologString
 from problog import get_evaluatable
+import seaborn as sns
+import matplotlib.pyplot as plt
 
 TRESH_EVALUATION = 0.5
 
@@ -65,3 +67,8 @@ def test_evaluation():
 
     my_file.write(txt)
     my_file.close()
+
+    df = pd.read_csv("Results_evalutation.csv")
+    confusion_matrix = pd.crosstab(df['Survived'], df['Result'], rownames=['Actual'], colnames=['Predicted'])
+    sns.heatmap(confusion_matrix,annot=True).set_title('Confusion Matrix')
+    plt.show()
